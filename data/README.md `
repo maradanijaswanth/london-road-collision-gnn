@@ -1,114 +1,46 @@
-# Explainable Graph Learning for Prospective Road-Segment Collision Susceptibility and Network Consequence Analysis
+# Data
 
-## Master's Thesis
+Large raw and processed datasets are not stored directly in this
+GitHub repository.
 
-This repository contains the implementation for my Master's thesis on prospective road-segment collision susceptibility prediction in Greater London.
+The thesis uses the following core data sources:
 
-## Research Objective
+## 1. OpenStreetMap
 
-The research investigates whether graph-based machine-learning models can improve prospective road-segment collision susceptibility prediction compared with conventional machine-learning approaches while maintaining interpretable and leakage-safe evaluation.
+Used to construct the Greater London road network.
 
-The primary prediction target is whether a road segment experiences at least one police-reported personal-injury collision in a future period t+1, using only information available through time t.
+The network is obtained programmatically using OSMnx.
 
-## Study Area
+Data source:
+https://www.openstreetmap.org/
 
-Greater London, United Kingdom
+OSMnx:
+https://osmnx.readthedocs.io/
 
-## Core Data Sources
+## 2. STATS19 Road Safety Data
 
-The project combines:
+Police-reported personal-injury road collision data produced by the
+UK Department for Transport.
 
-- OpenStreetMap road-network data
-- STATS19 road safety data
-- Department for Transport traffic count / AADF data
+STATS19 will be used to construct historical collision information
+and future road-segment collision outcomes.
 
-## Methodology
+## 3. Department for Transport Road Traffic Statistics
 
-The planned research workflow is:
+Traffic count and Annual Average Daily Flow (AADF) information will
+be used to represent traffic exposure.
 
-1. Construct the Greater London road network.
-2. Define and audit road-segment analysis units.
-3. Map-match STATS19 collisions to road segments.
-4. Match DfT traffic observations to road segments.
-5. Construct a road-segment-year dataset.
-6. Create leakage-safe historical predictors and future labels.
-7. Train conventional machine-learning baselines.
-8. Construct a road-segment line graph.
-9. Train graph neural network models.
-10. Compare, calibrate and explain model predictions.
-11. Assess network consequence.
-12. Develop a transparent prioritisation framework.
+Data source:
+https://roadtraffic.dft.gov.uk/
 
-## Models
+## Local Data Structure
 
-### Conventional Machine Learning
+data/
+├── raw/
+│   ├── osm/
+│   ├── stats19/
+│   └── dft/
+├── interim/
+└── processed/
 
-- Logistic Regression
-- Random Forest
-- XGBoost
-- LightGBM
-
-### Graph Neural Networks
-
-- Graph Convolutional Network (GCN)
-- GraphSAGE
-- Graph Attention Network (GAT)
-
-GraphSAGE is the primary graph model candidate, but the study does not assume that graph models will outperform conventional models.
-
-## Current Implementation
-
-The first implementation stage focuses on road-network acquisition and inspection.
-
-The current notebook:
-
-`notebooks/01_osm_london_network.ipynb`
-
-performs the following steps:
-
-- installs and imports OSMnx and geospatial libraries
-- tests road-network extraction using Westminster
-- obtains the Greater London drivable road network
-- converts the graph to node and edge GeoDataFrames
-- visualizes the road network
-- stores the network as GraphML
-- exports geographic nodes and edges as GeoPackage files
-
-The network edges provide the initial basis for defining road-segment analysis units. Further segmentation auditing will be performed before constructing the modelling dataset.
-
-## Current Project Status
-
-Completed:
-
-- [x] Google Colab development environment
-- [x] OSMnx installation
-- [x] Westminster network prototype
-- [x] Greater London drivable road-network extraction
-- [x] Network visualization
-- [x] Node and edge GeoDataFrame conversion
-- [x] GraphML network storage
-- [x] GeoPackage node/edge storage
-
-Next stages:
-
-- [ ] Road-segment audit
-- [ ] STATS19 data inspection
-- [ ] Collision map matching
-- [ ] DfT AADF integration
-- [ ] Road-segment-year panel construction
-- [ ] Leakage-safe feature engineering
-- [ ] Traditional machine-learning baselines
-- [ ] Line-graph construction
-- [ ] GNN implementation
-- [ ] Explainability analysis
-- [ ] Network consequence analysis
-
-## Reproducibility
-
-Raw datasets are kept separate from the source code and are not committed directly to the repository.
-
-The project follows the structure:
-
-data/raw -> data/interim -> data/processed
-
-where original source data are preserved without manual modification.
+Raw data should be preserved without manual modification.
